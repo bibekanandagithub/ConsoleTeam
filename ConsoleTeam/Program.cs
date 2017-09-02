@@ -14,8 +14,16 @@ namespace ConsoleTeam
     {
         static void Main(string[] args)
         {
+            Uri CollectionUri = (args.Length < 1) ? new Uri("http://desktop-anh3ro7:8080/tfs/") : new Uri(args[0]);
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+            WorkItemStore wis = tpc.GetService<WorkItemStore>();
+            //get the specific workitem in the store ex if the id =1
 
-
+            WorkItem wi = wis.GetWorkItem(1);
+            string oldAssignedTo = (string)wi.Fields["Assigned to"].Value;
+            Console.WriteLine(oldAssignedTo);
+            Console.Write(wi.Fields["Area Path"].Value.ToString());
+            Console.Read();
 
 
             #region ConnectTFS
