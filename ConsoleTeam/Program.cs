@@ -7,12 +7,16 @@ using System.Collections.ObjectModel;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.Framework.Client;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
 namespace ConsoleTeam
 {
     class Program
     {
         static void Main(string[] args)
         {
+
+
+            #region ConnectTFS
             Uri tfsUri = (args.Length < 1) ?
                new Uri("http://desktop-anh3ro7:8080/tfs") : new Uri(args[0]);
 
@@ -47,6 +51,23 @@ namespace ConsoleTeam
 
                 Console.Read();
             }
+            #endregion
+
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(
+      new Uri("http://localhost:8080/tfs/"));
+            WorkItemStore workItemStore = (WorkItemStore)tpc.GetService(typeof(WorkItemStore));
+
+            // Run a query.
+            WorkItemCollection queryResults = workItemStore.Query(
+               "Select [State], [Title] " +
+               "From WorkItems " +
+               "Order By [State] Asc, [Changed Date] Desc");
+
+            // Run a saved query.
+            QueryHierarchy queryRoot = workItemStore.Projects[0].QueryHierarchy;
+            QueryFolder folder = (QueryFolder)queryRoot["Shared Queries"];
+            QueryDefinition query = (QueryDefinition)folder["My Work items"];
+            queryResults = workItemStore.Query(query.QueryText,);
 
         }
     }
