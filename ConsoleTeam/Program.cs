@@ -14,74 +14,77 @@ namespace ConsoleTeam
     {
         static void Main(string[] args)
         {
+
             Uri CollectionUri = (args.Length < 1) ? new Uri("http://desktop-anh3ro7:8080/tfs/") : new Uri(args[0]);
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
             WorkItemStore wis = tpc.GetService<WorkItemStore>();
             //get the specific workitem in the store ex if the id =1
 
             WorkItem wi = wis.GetWorkItem(1);
-            string oldAssignedTo = (string)wi.Fields["Assigned to"].Value;
-            Console.WriteLine(oldAssignedTo);
-            Console.Write(wi.Fields["Area Path"].Value.ToString());
+            if (wi.State == "Active")
+            {
+                string oldAssignedTo = (string)wi.Fields["Assigned to"].Value;
+                Console.WriteLine(oldAssignedTo);
+                Console.Write(wi.Fields["Area Path"].Value.ToString());
+            }
             Console.Read();
 
 
             #region ConnectTFS
-      //      Uri tfsUri = (args.Length < 1) ?
-      //         new Uri("http://desktop-anh3ro7:8080/tfs") : new Uri(args[0]);
+            //      Uri tfsUri = (args.Length < 1) ?
+            //         new Uri("http://desktop-anh3ro7:8080/tfs") : new Uri(args[0]);
 
-      //      TfsConfigurationServer configurationServer =
-      //          TfsConfigurationServerFactory.GetConfigurationServer(tfsUri);
+            //      TfsConfigurationServer configurationServer =
+            //          TfsConfigurationServerFactory.GetConfigurationServer(tfsUri);
 
-      //      // Get the catalog of team project collections
-      //      ReadOnlyCollection<CatalogNode> collectionNodes = configurationServer.CatalogNode.QueryChildren(
-      //          new[] { CatalogResourceTypes.ProjectCollection },
-      //          false, CatalogQueryOptions.None);
+            //      // Get the catalog of team project collections
+            //      ReadOnlyCollection<CatalogNode> collectionNodes = configurationServer.CatalogNode.QueryChildren(
+            //          new[] { CatalogResourceTypes.ProjectCollection },
+            //          false, CatalogQueryOptions.None);
 
-      //      // List the team project collections
-      //      foreach (CatalogNode collectionNode in collectionNodes)
-      //      {
-      //          // Use the InstanceId property to get the team project collection
-      //          Guid collectionId = new Guid(collectionNode.Resource.Properties["InstanceId"]);
-      //          TfsTeamProjectCollection teamProjectCollection = configurationServer.GetTeamProjectCollection(collectionId);
+            //      // List the team project collections
+            //      foreach (CatalogNode collectionNode in collectionNodes)
+            //      {
+            //          // Use the InstanceId property to get the team project collection
+            //          Guid collectionId = new Guid(collectionNode.Resource.Properties["InstanceId"]);
+            //          TfsTeamProjectCollection teamProjectCollection = configurationServer.GetTeamProjectCollection(collectionId);
 
-      //          // Print the name of the team project collection
-      //          Console.WriteLine("Collection: " + teamProjectCollection.Name);
+            //          // Print the name of the team project collection
+            //          Console.WriteLine("Collection: " + teamProjectCollection.Name);
 
-      //          // Get a catalog of team projects for the collection
-      //          ReadOnlyCollection<CatalogNode> projectNodes = collectionNode.QueryChildren(
-      //              new[] { CatalogResourceTypes.TeamProject },
-      //              false, CatalogQueryOptions.None);
+            //          // Get a catalog of team projects for the collection
+            //          ReadOnlyCollection<CatalogNode> projectNodes = collectionNode.QueryChildren(
+            //              new[] { CatalogResourceTypes.TeamProject },
+            //              false, CatalogQueryOptions.None);
 
-      //          // List the team projects in the collection
-      //          foreach (CatalogNode projectNode in projectNodes)
-      //          {
-      //              Console.WriteLine(" Team Project: " + projectNode.Resource.DisplayName);
-      //          }
+            //          // List the team projects in the collection
+            //          foreach (CatalogNode projectNode in projectNodes)
+            //          {
+            //              Console.WriteLine(" Team Project: " + projectNode.Resource.DisplayName);
+            //          }
 
-      //          Console.Read();
-               
-      //      }
-          
+            //          Console.Read();
 
-      //      TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(
-      //new Uri("http://localhost:8080/tfs/"));
-      //      WorkItemStore workItemStore = (WorkItemStore)tpc.GetService(typeof(WorkItemStore));
+            //      }
 
-      //      // Run a query.
-      //      WorkItemCollection queryResults = workItemStore.Query(
-      //         "Select [State], [Title] " +
-      //         "From WorkItems " +
-      //         "Order By [State] Asc, [Changed Date] Desc");
 
-      //      // Run a saved query.  cc
-      //      //Add somethig
-      //      QueryHierarchy queryRoot = workItemStore.Projects[0].QueryHierarchy;
-      //      QueryFolder folder = (QueryFolder)queryRoot["Shared Queries"];
-      //      QueryDefinition query = (QueryDefinition)folder["My Work items"];
-      //      queryResults = workItemStore.Query(query.QueryText);
+            //      TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(
+            //new Uri("http://localhost:8080/tfs/"));
+            //      WorkItemStore workItemStore = (WorkItemStore)tpc.GetService(typeof(WorkItemStore));
+
+            //      // Run a query.
+            //      WorkItemCollection queryResults = workItemStore.Query(
+            //         "Select [State], [Title] " +
+            //         "From WorkItems " +
+            //         "Order By [State] Asc, [Changed Date] Desc");
+
+            //      // Run a saved query.  cc
+            //      //Add somethig
+            //      QueryHierarchy queryRoot = workItemStore.Projects[0].QueryHierarchy;
+            //      QueryFolder folder = (QueryFolder)queryRoot["Shared Queries"];
+            //      QueryDefinition query = (QueryDefinition)folder["My Work items"];
+            //      queryResults = workItemStore.Query(query.QueryText);
             #endregion
-
         }
     }
 }
