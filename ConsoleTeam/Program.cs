@@ -8,6 +8,8 @@ using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using Microsoft.TeamFoundation.TestManagement.Client;
+
 namespace ConsoleTeam
 {
     class Program
@@ -19,17 +21,33 @@ namespace ConsoleTeam
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
             WorkItemStore wis = tpc.GetService<WorkItemStore>();
 
-            Query qry = new Query(wis, "SELECT * FROM WorkItems");
+            #region fetch test plan
+            ITestManagementTeamProject tm = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
+                         
 
-            WorkItemCollection wic = qry.RunQuery();
-            foreach(WorkItem wi in wic)
+           ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
+            foreach(ITestPlan tp in plans)
             {
-                if (wi.Fields["Work Item Type"].Value.ToString() == "Bug")
-                {
-                    Console.WriteLine(wi.Title + "  " + wi.Fields["Work Item Type"].Value.ToString());
-                }
+                Console.WriteLine(tp.Name);
             }
+
             Console.Read();
+            #endregion  
+
+
+            #region GetWorkitem
+            //Query qry = new Query(wis, "SELECT * FROM WorkItems");
+
+            //WorkItemCollection wic = qry.RunQuery();
+            //foreach(WorkItem wi in wic)
+            //{
+            //    if (wi.Fields["Work Item Type"].Value.ToString() == "Bug")
+            //    {
+            //        Console.WriteLine(wi.Title + "  " + wi.Fields["Work Item Type"].Value.ToString());
+            //    }
+            //}
+            //Console.Read();
+            #endregion
             #region Fetch Single Workitem
             //get the specific workitem in the store ex if the id =1
             //WorkItem wi = wis.GetWorkItem(1);
