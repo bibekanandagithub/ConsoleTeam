@@ -18,17 +18,29 @@ namespace ConsoleTeam
             Uri CollectionUri = (args.Length < 1) ? new Uri("http://desktop-anh3ro7:8080/tfs/") : new Uri(args[0]);
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
             WorkItemStore wis = tpc.GetService<WorkItemStore>();
-            //get the specific workitem in the store ex if the id =1
 
-            WorkItem wi = wis.GetWorkItem(1);
-            if (wi.State == "Active")
+            Query qry = new Query(wis, "SELECT * FROM WorkItems");
+
+            WorkItemCollection wic = qry.RunQuery();
+            foreach(WorkItem wi in wic)
             {
-                string oldAssignedTo = (string)wi.Fields["Assigned to"].Value;
-                Console.WriteLine(oldAssignedTo);
-                Console.Write(wi.Fields["Area Path"].Value.ToString());
+                if (wi.Fields["Work Item Type"].Value.ToString() == "Bug")
+                {
+                    Console.WriteLine(wi.Title + "  " + wi.Fields["Work Item Type"].Value.ToString());
+                }
             }
             Console.Read();
-
+            #region Fetch Single Workitem
+            //get the specific workitem in the store ex if the id =1
+            //WorkItem wi = wis.GetWorkItem(1);
+            //if (wi.State == "Active")
+            //{
+            //    string oldAssignedTo = (string)wi.Fields["Assigned to"].Value;
+            //    Console.WriteLine(oldAssignedTo);
+            //    Console.Write(wi.Fields["Area Path"].Value.ToString());
+            //}
+            //Console.Read();
+            #endregion
 
             #region ConnectTFS
             //      Uri tfsUri = (args.Length < 1) ?
