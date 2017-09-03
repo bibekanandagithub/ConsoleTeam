@@ -21,7 +21,7 @@ namespace ConsoleTeam
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
             WorkItemStore wis = tpc.GetService<WorkItemStore>();
 
-            #region fetch test plan
+            #region fetch test plan and test case
             ITestManagementTeamProject tm = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
                          
 
@@ -29,10 +29,13 @@ namespace ConsoleTeam
             foreach(ITestPlan tp in plans)
             {
                 Console.WriteLine(tp.Name);
+                GetAllTestCasesInTestPlan(tm, tp, true);
             }
 
             Console.Read();
-            #endregion  
+
+          
+            #endregion
 
 
             #region GetWorkitem
@@ -116,5 +119,141 @@ namespace ConsoleTeam
             //      queryResults = workItemStore.Query(query.QueryText);
             #endregion
         }
+
+        public static List<TestCase> GetAllTestCasesInTestPlan(ITestManagementTeamProject testManagementTeamProject, ITestPlan testPlan, bool initializeTestCaseStatus = true)
+        {
+            testPlan.Refresh();
+            List<TestCase> testCasesList;
+            testCasesList = new List<TestCase>();
+            string fullQuery =
+                String.Format("SELECT [System.Id], [System.Title] FROM WorkItems WHERE [System.WorkItemType] = 'Test Case' AND [Team Project] = '{0}'", testManagementTeamProject.TeamProjectName);
+            IEnumerable<ITestCase> allTestCases = testManagementTeamProject.TestCases.Query(fullQuery);
+            foreach (var currentTestCase in allTestCases)
+            {
+                Console.WriteLine(currentTestCase.Title.ToString());
+            }
+
+            return testCasesList;
+        }
+    }
+
+    [Serializable]
+    public class TestCase 
+    {
+        [NonSerialized]
+        private TeamFoundationIdentityName teamFoundationIdentityName;
+        private int id;
+        private string title;
+        private string area;
+        private string createdBy;
+        private DateTime dateCreated;
+        private DateTime dateModified;
+         protected bool isInitialized;
+
+        public string OwnerDisplayName { get; set; }
+
+        public Guid TeamFoundationId { get; set; }
+
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+
+            set
+            {
+                this.id = value;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+
+            set
+            {
+               
+                this.title = value;
+               
+            }
+        }
+
+        public DateTime DateCreated
+        {
+            get
+            {
+                return this.dateCreated;
+            }
+
+            set
+            {
+                this.dateCreated = value;
+               
+            }
+        }
+
+        public string CreatedBy
+        {
+            get
+            {
+                return this.createdBy;
+            }
+
+            set
+            {
+                this.createdBy = value;
+                
+            }
+        }
+
+        public DateTime DateModified
+        {
+            get
+            {
+                return this.dateModified;
+            }
+
+            set
+            {
+                this.dateModified = value;
+              
+            }
+        }
+
+        public string Area
+        {
+            get
+            {
+                return this.area;
+            }
+
+            set
+            {
+               
+                this.area = value;
+               
+            }
+        }
+
+        public TeamFoundationIdentityName TeamFoundationIdentityName
+        {
+            get
+            {
+                return this.teamFoundationIdentityName;
+            }
+
+            set
+            {
+               
+                this.teamFoundationIdentityName = value;
+               
+            }
+        }
+
+        
     }
 }
