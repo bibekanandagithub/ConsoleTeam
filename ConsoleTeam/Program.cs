@@ -19,22 +19,33 @@ namespace ConsoleTeam
 
             Uri CollectionUri = (args.Length < 1) ? new Uri("http://desktop-anh3ro7:8080/tfs/") : new Uri(args[0]);
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
-            WorkItemStore wis = tpc.GetService<WorkItemStore>();
-
-            #region fetch test plan and test case
+            WorkItemStore wis = tpc.GetService<WorkItemStore>();  // To get work items service
             ITestManagementTeamProject tm = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
-                         
+            #region fetch test plan and test case
 
-           ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
-            foreach(ITestPlan tp in plans)
+            ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
+            foreach (ITestPlan tp in plans)
             {
-                Console.WriteLine(tp.Name);
+                Console.WriteLine(tp.Name +"-" +"TestPan");
                 GetAllTestCasesInTestPlan(tm, tp, true);
             }
 
+          
+
+            var tstService = (ITestManagementService)tpc.GetService(typeof(ITestManagementService));
+            var tProject = tstService.GetTeamProject(tm.TeamProjectName);
+
+            var myTestSuite = tProject.TestSuites.Find(4);
+            Console.WriteLine("-----------------------------------");
+            foreach (var obj in myTestSuite.TestCases)
+            {
+               
+                Console.WriteLine(obj.Title.ToString()+"-     Suite id is="+obj.Id);
+               
+            }
+            Console.WriteLine("-----------------------------------");
             Console.Read();
 
-          
             #endregion
 
 
@@ -50,6 +61,15 @@ namespace ConsoleTeam
             //    }
             //}
             //Console.Read();
+            #region Practice
+            //Query qry = new Query(wis, "select * from WorkItems order by [Work Item Type]");
+
+            //WorkItemCollection wcollection = qry.RunQuery();
+            //foreach (WorkItem wi in wcollection)
+            //    Console.WriteLine(wi.Title+"("+wi.Fields["Work Item Type"].Value.ToString()+")");
+            //Console.Read();
+            #endregion
+
             #endregion
             #region Fetch Single Workitem
             //get the specific workitem in the store ex if the id =1
@@ -62,7 +82,6 @@ namespace ConsoleTeam
             //}
             //Console.Read();
             #endregion
-
             #region ConnectTFS
             //      Uri tfsUri = (args.Length < 1) ?
             //         new Uri("http://desktop-anh3ro7:8080/tfs") : new Uri(args[0]);
@@ -135,6 +154,8 @@ namespace ConsoleTeam
 
             return testCasesList;
         }
+
+      
     }
 
     [Serializable]
