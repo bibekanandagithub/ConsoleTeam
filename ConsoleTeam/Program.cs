@@ -23,54 +23,39 @@ namespace ConsoleTeam
             ITestManagementTeamProject tm = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
             #region fetch test plan and test case
 
-            ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
-            foreach (ITestPlan tp in plans)
-            {
-                Console.WriteLine(tp.Name +"-" +"TestPan");
-                GetAllTestCasesInTestPlan(tm, tp, true);
-            }
+            TFS1 obj = new TFS1();
+            obj.GetSpecificworkitem(1);
+            //ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
+            //foreach (ITestPlan tp in plans)
+            //{
+            //    Console.WriteLine(tp.Name +"-" +"TestPan");
+            //    GetAllTestCasesInTestPlan(tm, tp, true);
+            //}
 
           
 
-            var tstService = (ITestManagementService)tpc.GetService(typeof(ITestManagementService));
-            var tProject = tstService.GetTeamProject(tm.TeamProjectName);
+            //var tstService = (ITestManagementService)tpc.GetService(typeof(ITestManagementService));
+            //var tProject = tstService.GetTeamProject(tm.TeamProjectName);
 
-            var myTestSuite = tProject.TestSuites.Find(4);
-            Console.WriteLine("-----------------------------------");
-            foreach (var obj in myTestSuite.TestCases)
-            {
-               
-                Console.WriteLine(obj.Title.ToString()+"-     Suite id is="+obj.Id);
-               
-            }
-            Console.WriteLine("-----------------------------------");
-            Console.Read();
-
-            #endregion
-
-
-            #region GetWorkitem
-            //Query qry = new Query(wis, "SELECT * FROM WorkItems");
-
-            //WorkItemCollection wic = qry.RunQuery();
-            //foreach(WorkItem wi in wic)
+            //var myTestSuite = tProject.TestSuites.Find(4);
+            //Console.WriteLine("-----------------------------------");
+            //foreach (var obj in myTestSuite.TestCases)
             //{
-            //    if (wi.Fields["Work Item Type"].Value.ToString() == "Bug")
-            //    {
-            //        Console.WriteLine(wi.Title + "  " + wi.Fields["Work Item Type"].Value.ToString());
-            //    }
+               
+            //    Console.WriteLine(obj.Title.ToString()+"-     Suite id is="+obj.Id);
+               
             //}
-            //Console.Read();
-            #region Practice
-            //Query qry = new Query(wis, "select * from WorkItems order by [Work Item Type]");
+            //Console.WriteLine("-----------------------------------");
 
-            //WorkItemCollection wcollection = qry.RunQuery();
-            //foreach (WorkItem wi in wcollection)
-            //    Console.WriteLine(wi.Title+"("+wi.Fields["Work Item Type"].Value.ToString()+")");
+          
+            
             //Console.Read();
-            #endregion
 
             #endregion
+
+
+
+          
             #region Fetch Single Workitem
             //get the specific workitem in the store ex if the id =1
             //WorkItem wi = wis.GetWorkItem(1);
