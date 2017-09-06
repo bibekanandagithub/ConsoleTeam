@@ -24,7 +24,8 @@ namespace ConsoleTeam
             #region fetch test plan and test case
 
             TFS1 obj = new TFS1();
-            obj.GetSpecificworkitem(1);
+            obj.GetSharedQueries();
+            Console.Read();
             //ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
             //foreach (ITestPlan tp in plans)
             //{
@@ -56,17 +57,7 @@ namespace ConsoleTeam
 
 
           
-            #region Fetch Single Workitem
-            //get the specific workitem in the store ex if the id =1
-            //WorkItem wi = wis.GetWorkItem(1);
-            //if (wi.State == "Active")
-            //{
-            //    string oldAssignedTo = (string)wi.Fields["Assigned to"].Value;
-            //    Console.WriteLine(oldAssignedTo);
-            //    Console.Write(wi.Fields["Area Path"].Value.ToString());
-            //}
-            //Console.Read();
-            #endregion
+           
             #region ConnectTFS
             //      Uri tfsUri = (args.Length < 1) ?
             //         new Uri("http://desktop-anh3ro7:8080/tfs") : new Uri(args[0]);

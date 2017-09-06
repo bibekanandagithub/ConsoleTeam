@@ -66,7 +66,60 @@ namespace ConsoleTeam
             WorkItemStore wis = tpc.GetService<WorkItemStore>();
             WorkItemCollection wic = new Query(wis, "select * from WorkItem").RunQuery();
             WorkItem wi = wis.GetWorkItem(WorkItemID);
+            Console.WriteLine(wi.Title + " " + wi.Type.Name.ToString()+"  "+"Area Path="+wi.Fields["Area Path"].Value.ToString());
 
+        }
+        public void GetAllTestPlan()
+        {
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+            ITestManagementTeamProject itp = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team"); 
+
+        }
+        public void GetTestPoints(int suidid)
+        {
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+            ITestManagementTeamProject itp = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
+            ITestSuiteBase testsuite = itp.TestSuites.Query("select * from TestSuite where id=" + suidid + "").FirstOrDefault();
+            ITestPointCollection ipc= testsuite.Plan.QueryTestPoints("select * from TestPoint where Suiteid="+suidid+""); 
+
+            foreach(ITestPoint tp in ipc)
+            {
+                Console.WriteLine(tp.SuiteId + "----" + tp.TestCaseId+"-----"+tp.State.ToString()+"---"+tp.TestCaseWorkItem.Title);
+            }
+            
+        }
+        public void GetSharedQueries()
+        {
+            WorkItemCollection queryResults = null;
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+            WorkItemStore wis = tpc.GetService<WorkItemStore>();
+            List<string> listQueries = new List<string>();
+            var project = wis.Projects["Techbrother_Team"];
+            QueryHierarchy queryHierarchy = project.QueryHierarchy;
+            var queryFolder = queryHierarchy as QueryFolder;
+            QueryItem queryItem = queryFolder["Shared Queries"];
+            queryFolder = queryItem as QueryFolder;
+            foreach (var item in queryFolder)
+            {
+             
+                listQueries.Add(item.Name);
+              //  Console.WriteLine(item.Name);
+            }
+            var variables = new Dictionary<string, string>() { { "project", "Techbrother_Team" } };
+
+            QueryHierarchy queryRoot = wis.Projects[0].QueryHierarchy;
+            QueryFolder folder = (QueryFolder)queryRoot["Shared Queries"];
+            QueryDefinition query = (QueryDefinition)folder["BugDisplayQueries"];
+            queryResults = wis.Query(query.QueryText,variables);
+            foreach(FieldDefinition field in queryResults.DisplayFields)
+            {
+                Console.WriteLine(field.Name);
+            }
+            Console.WriteLine("-----------------");
+            foreach(WorkItem w in queryResults)
+            {
+                Console.WriteLine(w.Title);
+            }
         }
     }
 }
