@@ -9,6 +9,7 @@ using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.TeamFoundation.TestManagement.Client;
+using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace ConsoleTeam
 {
@@ -119,6 +120,38 @@ namespace ConsoleTeam
             foreach(WorkItem w in queryResults)
             {
                 Console.WriteLine(w.Title);
+            }
+        }
+
+        public void GetAllChangeSets()
+        {
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+
+            var vcs = tpc.GetService<VersionControlServer>();
+
+            // Create versionspec's. Example start with changeset 13
+            VersionSpec versionFrom = VersionSpec.ParseSingleSpec("C13", null);
+            // If you want all changesets use this versionFrom:
+            // VersionSpec versionFrom = null;
+            VersionSpec versionTo = VersionSpec.Latest;
+
+            // Get Changesets
+            var changesets = vcs.QueryHistory("$/Techbrother_Team/Main",
+             
+              VersionSpec.Latest,
+              0,
+              RecursionType.Full,
+              null,
+              null,
+              versionTo,
+              Int32.MaxValue,
+              true,
+              false
+              ).Cast<Changeset>();
+
+            foreach (var changeset in changesets)
+            {
+                Console.WriteLine(changeset.ChangesetId+"--"+changeset.OwnerDisplayName+changeset.CreationDate);
             }
         }
     }

@@ -24,7 +24,7 @@ namespace ConsoleTeam
             #region fetch test plan and test case
 
             TFS1 obj = new TFS1();
-            obj.GetSharedQueries();
+            obj.GetAllChangeSets();
             Console.Read();
             //ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
             //foreach (ITestPlan tp in plans)
