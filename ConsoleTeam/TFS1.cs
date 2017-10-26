@@ -16,7 +16,7 @@ namespace ConsoleTeam
 {
     class TFS1
     {
-        Uri CollectionUri = new Uri("http://desktop-anh3ro7:8080/tfs/");
+        Uri CollectionUri = new Uri("http://desktop-anh3ro7:8080/tfs/DefaultCollection/");
 
         public void GetAllWorkItem()
         {
@@ -221,7 +221,7 @@ namespace ConsoleTeam
         public void GetAllTestPlanALL()
         {
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
-            ITestManagementTeamProject itp = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
+            ITestManagementTeamProject itp = tpc.GetService<ITestManagementService>().GetTeamProject("TechBrothers");
 
             ITestPlanCollection plans = itp.TestPlans.Query("Select * From TestPlan");
             foreach (ITestPlan plan in plans)

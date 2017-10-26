@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define Bibek
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,7 @@ using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.TeamFoundation.TestManagement.Client;
+using System.Data;
 
 namespace ConsoleTeam
 {
@@ -17,15 +20,26 @@ namespace ConsoleTeam
         static void Main(string[] args)
         {
 
-            Uri CollectionUri = (args.Length < 1) ? new Uri("http://desktop-anh3ro7:8080/tfs/") : new Uri(args[0]);
+            Uri CollectionUri = (args.Length < 1) ? new Uri("http://desktop-anh3ro7:8080/tfs/DefaultCollection/") : new Uri(args[0]);
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
             WorkItemStore wis = tpc.GetService<WorkItemStore>();  // To get work items service
-            ITestManagementTeamProject tm = tpc.GetService<ITestManagementService>().GetTeamProject("Techbrother_Team");
+            ITestManagementTeamProject tm = tpc.GetService<ITestManagementService>().GetTeamProject("TechBrothers");
             #region fetch test plan and test case
 
             TFS1 obj = new TFS1();
-            obj.GetAllTestPlanALL();
+            obj.GetAllWorkItem();
             Console.Read();
+
+            DataTable dt = new DataTable();
+            dt = null; // dt contain some value
+            DataTable uniqueContacts = dt.AsEnumerable()
+                           .GroupBy(x => x.Field<string>("name"))
+                           .Select(g => g.First()).CopyToDataTable();
+
+
+
+
+
             //ITestPlanCollection plans = tm.TestPlans.Query("Select * From TestPlan");
             //foreach (ITestPlan tp in plans)
             //{
@@ -33,7 +47,7 @@ namespace ConsoleTeam
             //    GetAllTestCasesInTestPlan(tm, tp, true);
             //}
 
-          
+
 
             //var tstService = (ITestManagementService)tpc.GetService(typeof(ITestManagementService));
             //var tProject = tstService.GetTeamProject(tm.TeamProjectName);
@@ -42,22 +56,22 @@ namespace ConsoleTeam
             //Console.WriteLine("-----------------------------------");
             //foreach (var obj in myTestSuite.TestCases)
             //{
-               
+
             //    Console.WriteLine(obj.Title.ToString()+"-     Suite id is="+obj.Id);
-               
+
             //}
             //Console.WriteLine("-----------------------------------");
 
-          
-            
+
+
             //Console.Read();
 
             #endregion
 
 
 
-          
-           
+
+
             #region ConnectTFS
             //      Uri tfsUri = (args.Length < 1) ?
             //         new Uri("http://desktop-anh3ro7:8080/tfs") : new Uri(args[0]);
@@ -113,6 +127,21 @@ namespace ConsoleTeam
             //      QueryDefinition query = (QueryDefinition)folder["My Work items"];
             //      queryResults = workItemStore.Query(query.QueryText);
             #endregion
+
+
+            NamedParameterCollection(b: 10);
+            Console.Read();
+
+          
+        }
+
+
+
+
+
+        public static void NamedParameterCollection(int a=40,int b=1)
+        {
+            Console.WriteLine(string.Format("Vale of a is {0} and b is {1}", a, b));
         }
 
         public static List<TestCase> GetAllTestCasesInTestPlan(ITestManagementTeamProject testManagementTeamProject, ITestPlan testPlan, bool initializeTestCaseStatus = true)
