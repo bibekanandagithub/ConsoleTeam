@@ -30,11 +30,11 @@ namespace ConsoleTeam
             obj.GetAllWorkItem();
             Console.Read();
 
-            DataTable dt = new DataTable();
-            dt = null; // dt contain some value
-            DataTable uniqueContacts = dt.AsEnumerable()
-                           .GroupBy(x => x.Field<string>("name"))
-                           .Select(g => g.First()).CopyToDataTable();
+            //DataTable dt = new DataTable();
+            //dt = null; // dt contain some value
+            //DataTable uniqueContacts = dt.AsEnumerable()
+            //               .GroupBy(x => x.Field<string>("name"))
+            //               .Select(g => g.First()).CopyToDataTable();
 
 
 

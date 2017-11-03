@@ -20,19 +20,59 @@ namespace ConsoleTeam
 
         public void GetAllWorkItem()
         {
-            //Connect to the Team Foundation Server
-            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
-            WorkItemStore wis = tpc.GetService<WorkItemStore>();
-            //query will execute and store into the work items
-            Query wiq = new Query(wis, "Select * from WorkItems");
-            //All the collection will store here
-            WorkItemCollection wic = wiq.RunQuery();
-            foreach (WorkItem wi in wic)
-            {
-                Console.WriteLine(wi.Title.ToString() + "---" + wi.Fields["Work Item Type"].Value.ToString());
-            }
+            RunQueryFromFolder();
+            //ListofTask();
+            ////Connect to the Team Foundation Server
+            //TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+            //WorkItemStore wis = tpc.GetService<WorkItemStore>();
+            ////query will execute and store into the work items
+            //Query wiq = new Query(wis, "Select * from WorkItems");
+            ////All the collection will store here
+            //WorkItemCollection wic = wiq.RunQuery();
+            //foreach (WorkItem wi in wic)
+            //{
+            //    Console.WriteLine(wi.Title.ToString() + "---" + wi.Fields["Work Item Type"].Value.ToString());
+            //}
 
             Console.Read();
+
+        }
+
+        public void RunQueryFromFolder()
+        {
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+      
+            WorkItemStore workItemStore = (WorkItemStore)tpc.GetService(typeof(WorkItemStore));
+
+            // Run a query.
+            WorkItemCollection queryResults = workItemStore.Query(
+               "Select [State], [Title] " +
+               "From WorkItems " +
+               "Where [Work Item Type] = 'User Story' " +
+               "Order By [State] Asc, [Changed Date] Desc");
+
+            // Run a saved query.
+            QueryHierarchy queryRoot = workItemStore.Projects[0].QueryHierarchy;
+            QueryFolder folder = (QueryFolder)queryRoot["My Queries"];
+            QueryDefinition query = (QueryDefinition)folder["TaskQuery"];
+            queryResults = workItemStore.Query(query.QueryText);
+            foreach(WorkItem a in queryResults)
+            {
+                Console.WriteLine(a.Description);
+                
+            }
+        }
+
+        public void ListofTask()
+        {
+            TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
+            WorkItemStore wis = tpc.GetService<WorkItemStore>();
+            Query wiql = new Query(wis, "select * from WorkItems");
+            WorkItemCollection wic = wiql.RunQuery();
+            foreach(WorkItem wi in wic)
+            {
+               
+            }
 
         }
         public void GetActiveWorkItem()
