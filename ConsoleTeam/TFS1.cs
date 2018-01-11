@@ -10,7 +10,9 @@ using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.TeamFoundation.TestManagement.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using Microsoft.TeamFoundation.Discussion.Client;
 using System.IO;
+
 
 namespace ConsoleTeam
 {
@@ -38,6 +40,8 @@ namespace ConsoleTeam
 
         }
 
+      
+
         public void RunQueryFromFolder()
         {
             TfsTeamProjectCollection tpc = new TfsTeamProjectCollection(CollectionUri);
@@ -45,20 +49,17 @@ namespace ConsoleTeam
             WorkItemStore workItemStore = (WorkItemStore)tpc.GetService(typeof(WorkItemStore));
 
             // Run a query.
-            WorkItemCollection queryResults = workItemStore.Query(
-               "Select [State], [Title] " +
-               "From WorkItems " +
-               "Where [Work Item Type] = 'User Story' " +
-               "Order By [State] Asc, [Changed Date] Desc");
+            WorkItemCollection queryResults = null;
+;
 
             // Run a saved query.
             QueryHierarchy queryRoot = workItemStore.Projects[0].QueryHierarchy;
-            QueryFolder folder = (QueryFolder)queryRoot["My Queries"];
-            QueryDefinition query = (QueryDefinition)folder["TaskQuery"];
-            queryResults = workItemStore.Query(query.QueryText);
+            QueryFolder folder = (QueryFolder)queryRoot["Shared Queries"];
+            QueryDefinition query = (QueryDefinition)folder["My Bugs"];
+            queryResults = workItemStore.Query("select [System.Id], [Microsoft.VSTS.Common.StackRank], [Microsoft.VSTS.Common.Priority], [Microsoft.VSTS.Common.Severity], [System.State], [System.Title] from WorkItems where [System.TeamProject] = 'TechBrothers' and [System.AssignedTo] = @me and [System.WorkItemType] = 'Bug' and [System.State] <> 'Closed' order by [System.State], [Microsoft.VSTS.Common.StackRank], [Microsoft.VSTS.Common.Priority], [Microsoft.VSTS.Common.Severity], [System.Id]");
             foreach(WorkItem a in queryResults)
             {
-                Console.WriteLine(a.Description);
+                Console.WriteLine(a.Description+"----"+a.Id);
                 
             }
         }

@@ -30,6 +30,46 @@ namespace ConsoleTeam
             obj.GetAllWorkItem();
             Console.Read();
 
+
+            //for getting groups
+
+            //static void getgroup()
+            //{
+            //    using (SqlConnection cc = new SqlConnection("server=.;database=SyncDBServer;integrated security=true"))
+            //    {
+            //        using (SqlCommand cmd = new SqlCommand("select * from tbl_group", cc))
+            //        {
+            //            DataTable dt = new DataTable();
+            //            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            //            adp.Fill(dt);
+
+            //            var groupedData = from b in dt.AsEnumerable()
+            //                              group b by b.Field<string>("runbyname") into g
+            //                              let list = g.ToList()
+            //                              select new
+            //                              {
+            //                                  ChargeTag = g.Key,
+            //                                  Count = list.Count,
+
+            //                                  Billable = g.Where(row => row.Field<string>("outcome") == "passed").Count()
+
+            //                              };
+
+
+
+
+            //            foreach (var a in groupedData)
+            //            {
+            //                Console.WriteLine(a.ChargeTag + "  " + a.Count + "   " + a.Billable);
+            //            }
+            //            Console.Read();
+
+            //        }
+            //    }
+            //}
+
+
+
             //DataTable dt = new DataTable();
             //dt = null; // dt contain some value
             //DataTable uniqueContacts = dt.AsEnumerable()
