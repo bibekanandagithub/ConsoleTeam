@@ -32,6 +32,34 @@ namespace ConsoleTeam
 
 
             #region powershell Help
+
+            //private static void RunPowershellScript2(string scriptFile, List<string> parameters)
+            //{
+            //    // Validate parameters
+            //    if (string.IsNullOrEmpty(scriptFile)) { throw new ArgumentNullException("scriptFile"); }
+            //    if (parameters == null) { throw new ArgumentNullException("parameters"); }
+            //    RunspaceConfiguration runspaceConfiguration = RunspaceConfiguration.Create();
+            //    using (Runspace runspace = RunspaceFactory.CreateRunspace(runspaceConfiguration))
+            //    {
+            //        runspace.Open();
+            //        RunspaceInvoke scriptInvoker = new RunspaceInvoke(runspace);
+            //        scriptInvoker.Invoke("Set-ExecutionPolicy Unrestricted");
+            //        Pipeline pipeline = runspace.CreatePipeline();
+            //        Command scriptCommand = new Command(scriptFile);
+            //        Collection<CommandParameter> commandParameters = new Collection<CommandParameter>();
+            //        foreach (string scriptParameter in parameters)
+            //        {
+            //            CommandParameter commandParm = new CommandParameter(null, scriptParameter);
+            //            commandParameters.Add(commandParm);
+            //            scriptCommand.Parameters.Add(commandParm);
+            //        }
+            //        pipeline.Commands.Add(scriptCommand);
+            //        Collection<PSObject> psObjects;
+            //        psObjects = pipeline.Invoke();
+            //    }
+            //}
+
+
             /*
                  * open powershell in admin mode and set the below command
                  * Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
