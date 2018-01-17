@@ -31,6 +31,40 @@ namespace ConsoleTeam
             Console.Read();
 
 
+            #region powershell Help
+            /*
+                 * open powershell in admin mode and set the below command
+                 * Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+                 * */
+
+
+            //public static string RunPowershellScript()
+            //{
+            //    ProcessStartInfo startInfo = new ProcessStartInfo();
+            //    startInfo.FileName = @"powershell.exe";
+            //    //provide powershell script full path
+            //    //            startInfo.Arguments = @"& 'C:\ps\1.ps1'";
+            //    startInfo.Arguments = @"& 'C:\ps\ex.ps1'";
+
+            //    startInfo.RedirectStandardOutput = true;
+            //    startInfo.RedirectStandardError = true;
+            //    startInfo.UseShellExecute = false;
+            //    startInfo.CreateNoWindow = true;
+            //    Process process = new Process();
+            //    process.StartInfo = startInfo;
+            //    // execute script call start process
+            //    process.Start();
+            //    // get output information
+            //    string output = process.StandardOutput.ReadToEnd();
+
+
+            //    // catch error information
+            //    string errors = process.StandardError.ReadToEnd();
+            //    return output + "  " + errors;
+            //}
+            #endregion  
+
+
             //for getting groups
 
             //static void getgroup()
