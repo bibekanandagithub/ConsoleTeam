@@ -88,7 +88,30 @@ namespace ConsoleTeam
         //it will execute batch file
         #endregion
 
+        #region Create a dynamic VBS file
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    string myVBSFilename = @"C:\ps\executescript.vbs";
+        //    if (File.Exists(myVBSFilename))
+        //    {
 
+        //    }
+        //    else
+        //    {
+        //        using (FileStream fs = File.Create(myVBSFilename))
+        //        {
+        //            // Add some text to file
+        //            Byte[] title = new UTF8Encoding(true).GetBytes("set shell= WScript.CreateObject(\"WScript.shell\")" + Environment.NewLine);
+        //            fs.Write(title, 0, title.Length);
+        //            string cont = "shell.Run(\"c:\\ps\\test.bat \"), 0 , True";
+        //            Byte[] title2 = new UTF8Encoding(true).GetBytes(cont);
+        //            fs.Write(title2, 0, title2.Length);
+
+
+        //        }
+        //    }
+        //}
+        #endregion  
 
     }
 }
