@@ -133,18 +133,18 @@ namespace ConsoleTeam
 //        private void Form1_Load(object sender, EventArgs e)
 //        {
 //            InitializeComponent();
-//            m_oWorker = new BackgroundWorker();
+//            //m_oWorker = new BackgroundWorker();
 
-//            // Create a background worker thread that ReportsProgress &
-//            // SupportsCancellation
-//            // Hook up the appropriate events.
-//            m_oWorker.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
-//            m_oWorker.ProgressChanged += new ProgressChangedEventHandler
-//                    (backgroundWorker1_ProgressChanged);
-//            m_oWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler
-//                    (backgroundWorker1_RunWorkerCompleted);
-//            m_oWorker.WorkerReportsProgress = true;
-//            m_oWorker.WorkerSupportsCancellation = true;
+//            //// Create a background worker thread that ReportsProgress &
+//            //// SupportsCancellation
+//            //// Hook up the appropriate events.
+//            //m_oWorker.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
+//            //m_oWorker.ProgressChanged += new ProgressChangedEventHandler
+//            //        (backgroundWorker1_ProgressChanged);
+//            //m_oWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler
+//            //        (backgroundWorker1_RunWorkerCompleted);
+//            //m_oWorker.WorkerReportsProgress = true;
+//            //m_oWorker.WorkerSupportsCancellation = true;
 //        }
 
 //        private void button1_Click(object sender, EventArgs e)
@@ -170,8 +170,8 @@ namespace ConsoleTeam
 
 
 //                // Kickoff the worker thread to begin it's DoWork function.
-//                m_oWorker.RunWorkerAsync();
-
+//                backgroundWorker1.WorkerReportsProgress = true;
+//                backgroundWorker1.RunWorkerAsync();
 //                Process scriptProc = new Process();
 //                scriptProc.StartInfo.FileName = @"cscript";
 //                scriptProc.StartInfo.WorkingDirectory = @"c:\ps\";
@@ -188,6 +188,14 @@ namespace ConsoleTeam
 //            {
 //                richTextBox1.Text += String.Format("\r\nError in script : {0}\r\n", error.Message);
 //            }
+
+//        }
+
+//        private void simulateheavyjob()
+//        {
+
+//            Thread.Sleep(100);
+
 
 //        }
 
@@ -265,32 +273,20 @@ namespace ConsoleTeam
 
 //        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
 //        {
-//            for (int i = 0; i < 100; i++)
+//            for (int i = 0; i <= 100; i++)
 //            {
-//                Thread.Sleep(100);
-
-//                // Periodically report progress to the main thread so that it can
-//                // update the UI.  In most cases you'll just need to send an
-//                // integer that will update a ProgressBar                    
-//                m_oWorker.ReportProgress(i);
-//                // Periodically check if a cancellation request is pending.
-//                // If the user clicks cancel the line
-//                // m_AsyncWorker.CancelAsync(); if ran above.  This
-//                // sets the CancellationPending to true.
-//                // You must check this flag in here and react to it.
-//                // We react to it by setting e.Cancel to true and leaving
-//                if (m_oWorker.CancellationPending)
+//                //CHECK FOR CANCELLATION FIRST
+//                if (backgroundWorker1.CancellationPending)
 //                {
-//                    // Set the e.Cancel flag so that the WorkerCompleted event
-//                    // knows that the process was cancelled.
+//                    //CANCEL
 //                    e.Cancel = true;
-//                    m_oWorker.ReportProgress(0);
-//                    return;
+//                }
+//                else
+//                {
+//                    simulateheavyjob();
+//                    backgroundWorker1.ReportProgress(i);
 //                }
 //            }
-
-//            //Report 100% completion on operation completed
-//            m_oWorker.ReportProgress(100);
 //        }
 
 //        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -301,31 +297,32 @@ namespace ConsoleTeam
 
 //        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 //        {
-//            // The background process is complete. We need to inspect
-//            // our response to see if an error occurred, a cancel was
-//            // requested or if we completed successfully.  
 //            if (e.Cancelled)
 //            {
-//                lblDirectoryStatus.Text = "Task Cancelled.";
-//            }
-
-//            // Check to see if an error occurred in the background process.
-
-//            else if (e.Error != null)
-//            {
-//                lblDirectoryStatus.Text = "Error while performing background operation.";
+//                display("You have Cancelled");
+//                progressBar1.Value = 0;
+//                lblDirectoryStatus.Text = "0";
 //            }
 //            else
 //            {
-//                // Everything completed normally.
-//                lblDirectoryStatus.Text = "Task Completed...";
+//                display("Work completed successfully");
 //            }
 
 //            //Change the status of the buttons on the UI accordingly
 
 //        }
+//        private void display(String text)
+//        {
+//            MessageBox.Show(text);
+//        }
 //    }
 //}
+
+
+
+
+
+
 
 
 
