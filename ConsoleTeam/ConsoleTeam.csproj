@@ -215,6 +215,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TFS1.cs" />
+    <Compile Include="Xmlandpowershellhelp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
