@@ -1,0 +1,26 @@
+//xml powershell help
+        //https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/
+
+//        @echo off
+//setlocal ENABLEDELAYEDEXPANSION
+//set source = "C:\Users\vsdeveloper\Pictures\Saved Pictures"
+//set target = "K:\Fbpix"
+
+//rem /l = list only, /u = already existing, /y = yes to replace
+//rem /f = display full source and destination file names, /c = continue on errors
+//rem /s = subdirectories, /k = keep attributes
+//rem split the strings at ->, we're only interested in the part after ->
+//for /f "usebackq tokens=1,* delims=>" %%a in (`xcopy %source% %target% /l /u /y /f /c /s /k`) do (
+//    set file=%%b
+//    rem ignore lines without a destination, e.g. 15 file(s) copied
+//    if x!file! neq x(
+//        rem remove the leading space, original string is source -> destination
+//        set file= !file:~1!
+//        for %%f in ("!file!") do (
+//            if not exist %%~dpf\backup\* md %%~dpf\backup
+//            rem only backup if not already backed up
+//            if not exist %%~dpf\backup\%%~nxf move %%f %%~dpf\backup
+//        )
+//    )
+//)
+//xcopy %source% %target% /y /c /q /s /k
