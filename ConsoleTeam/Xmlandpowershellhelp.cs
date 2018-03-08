@@ -8,6 +8,7 @@ namespace ConsoleTeam
 {
     class Xmlandpowershellhelp
     {
+        //https://github.com/rndsolutions/trx-merger  // merger
         #region for XML Update
         //    var path = System.IO.Path.GetDirectoryName(
         //System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) + "\\" + "ReportCreator" + "\\" + "configtestcount.xml";
